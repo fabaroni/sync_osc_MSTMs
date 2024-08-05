@@ -88,6 +88,7 @@ We include some code developed by others. Please see content of the directory `t
 
 # Fundings
 This project was supported by grants PID2021-122347NB-I00 (PI: Pablo Varona Martinez) and PID2020-114867RB-I00 (PI: Francisco de Borja Rodríguez Ortiz) (MCIN/AEI and ERDF- "A way of making Europe").
+
 <img src="https://github.com/user-attachments/assets/9107610a-475f-42b9-b04d-3c803312ae74" width=50%>
 
 
