@@ -1,0 +1,154 @@
+# Copyright 2021-2022 The DADApy Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
+"""Module for testing ADP clustering in its pure python implementation."""
+
+import os
+
+import numpy as np
+
+from dadapy import Clustering
+
+filename = os.path.join(os.path.split(__file__)[0], "../2gaussians_in_2d.npy")
+
+X = np.load(filename)
+
+expected_cluster_assignment = np.array(
+    [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+    ]
+)
+
+
+def test_clustering_ADP_pure_python():
+    """Test the clustering operations work correctly."""
+    cl = Clustering(coordinates=X)
+
+    _ = cl.compute_clustering_ADP_pure_python()
+
+    assert cl.N_clusters == 2
+
+    assert (cl.cluster_assignment == expected_cluster_assignment).all()
+
+
+def test_clustering_ADP_pure_python_with_merging():
+    """Test the clustering operations with the knn and merging work correctly."""
+    cl = Clustering(coordinates=X)
+
+    _ = cl.compute_density_kNN(k=5)
+    cl.kstar = np.ones(cl.N, dtype=int) * 5
+    _ = cl.compute_clustering_ADP_pure_python()
+
+    assert cl.N_clusters == 2
+    assert (cl.cluster_assignment == expected_cluster_assignment).all()
